@@ -1,0 +1,2 @@
+# selftaught
+experiments with python

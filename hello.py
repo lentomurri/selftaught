@@ -146,12 +146,6 @@ def milesToKm(miles):
     kilometers = miles * 1.609344
     print(str(miles) + " miles is equal to " + str(kilometers))
 
-# function to convert celsius to fahrenheit
-
-def milesToKm(miles):
-    kilometers = miles * 1.609344
-    print(str(miles) + " miles is equal to " + str(kilometers))
-
 # function to convert fahrenheit to celsius
 
 #take input from user

@@ -1,14 +1,11 @@
-
 import random
+
 class Card():
     seeds = ["Spades", "Hearts", "Diamonds", "Clubs"]
     nums = [None, "Ace", 2, 3, 4, 5, 6, 7, 8, 9, 10, "Jack", "Queen", "King"]
     def __init__(self, s, n):
         self.index_seed = s
-        self.seed = self.seeds[s]
         self.index_number = n
-        self.number = self.nums[n]
-    
     def compare(self, other):
         if self.index_number > other.index_number:
             return "Player 1 wins"
@@ -22,37 +19,50 @@ class Card():
             else:
                 return "It's a draw!"
 
-# function to create card
-def create_card():
-    seed = random.randrange(3)
-    number = random.randrange(1, 12)
-    return Card(seed, number)
+class Deck():
+    def __init__(self):
+        self.deck = []
+        self.seeds = ["Spades", "Hearts", "Diamonds", "Clubs"]
+        for i in range (2, 15):
+            for j in range(1,5):
+                card = Card(i, j)
+                self.deck.append(card)
+        random.shuffle(self.deck)
+
+class Player():
+  def __init__(self):
+      self.wins = 0
+      self.name = input("Choose player's name: ")
 
 def play_game():
-    win = False
-    tracker1 = 0
-    tracker2 = 0
-    while win == False:
+    deck = Deck()
+    deck = deck.deck
+    player1 = Player()
+    player2 = Player()
+    while len(deck) > 2:
         message = "Press q to quit or any other key to play: "
-        if tracker1 == 5:
-            print("Player 1 wins the game!!")
-            win = True
-        if tracker2 == 5:
-            print("You lost!!")
-            win = True
         response = input(message)
         if response == "q":
             break
         else:
-            card1 = create_card()
-            card2 = create_card()
+            random1 = random.randint(0, len(deck) - 1)
+            random2 = random.randint(0, len(deck) - 1)
+            card1 = deck[random1]
+            card2 = deck[random2]
             result = card1.compare(card2)
-            print("Player1 drew " + str(card1.number) + " of " + str(card1.seed) + ", Player2 drew " + str(card2.number) + " of " +  str(card2.seed))
+            deck.pop(deck.index(card1))
             if result == "Player 1 wins":
                 print(result)
-                tracker1 += 1
+                player1.wins += 1
             if result == "Player 2 wins":
                 print(result)
-                tracker2 += 1
+                player2.wins += 1
+    result = player1.wins - player2.wins
+    if result > 0:
+        print("THE WAR HAS FINISHED! " + player1.name + " won!")
+    else:
+        print("THE WAR HAS FINISHED! " + player2.name + " won!")
+
+                    
 
 play_game()

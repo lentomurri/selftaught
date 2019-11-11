@@ -1,11 +1,12 @@
 import random
 
 class Card():
-    seeds = ["Spades", "Hearts", "Diamonds", "Clubs"]
+    seeds = [None, "Spades", "Hearts", "Diamonds", "Clubs"]
     nums = [None, "Ace", 2, 3, 4, 5, 6, 7, 8, 9, 10, "Jack", "Queen", "King"]
-    def __init__(self, s, n):
-        self.index_seed = s
+    def __init__(self, n, s):
         self.index_number = n
+        self.index_seed = s
+        self.seed = self.seeds[s]
     def compare(self, other):
         if self.index_number > other.index_number:
             return "Player 1 wins"
@@ -14,16 +15,14 @@ class Card():
         else:
             if self.index_seed > other.index_seed:
                 return "Player 1 wins"
-            if self.index_seed < other.index_seed:
-                return "Player 2 wins"
             else:
-                return "It's a draw!"
+                return "Player 2 wins"
+            
 
 class Deck():
     def __init__(self):
         self.deck = []
-        self.seeds = ["Spades", "Hearts", "Diamonds", "Clubs"]
-        for i in range (2, 15):
+        for i in range (1, 15):
             for j in range(1,5):
                 card = Card(i, j)
                 self.deck.append(card)
@@ -32,8 +31,7 @@ class Deck():
 class Player():
   def __init__(self):
       self.wins = 0
-      self.name = input("Choose player's name: ")
-
+      self.name = input("Choose player's name: ").capitalize()
 def play_game():
     deck = Deck()
     deck = deck.deck
@@ -50,7 +48,12 @@ def play_game():
             card1 = deck[random1]
             card2 = deck[random2]
             result = card1.compare(card2)
-            deck.pop(deck.index(card1))
+            message = "{} has drawn {} of {}"
+            print(message.format(player1.name, card1.index_number, card1.seed))
+            print(message.format(player2.name, card2.index_number, card2.seed))
+            for index, value in enumerate(deck):
+                if deck[index] == card1 or deck[index] ==card2:
+                    deck.pop(index)    
             if result == "Player 1 wins":
                 print(result)
                 player1.wins += 1
@@ -60,6 +63,8 @@ def play_game():
     result = player1.wins - player2.wins
     if result > 0:
         print("THE WAR HAS FINISHED! " + player1.name + " won!")
+    elif result == 0:
+        print("THE WAR HAS FINISHED! And it's a draw!")
     else:
         print("THE WAR HAS FINISHED! " + player2.name + " won!")
 

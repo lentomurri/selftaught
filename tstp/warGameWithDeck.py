@@ -32,6 +32,7 @@ class Player():
   def __init__(self):
       self.wins = 0
       self.name = input("Choose player's name: ").capitalize()
+      
 def play_game():
     deck = Deck()
     deck = deck.deck

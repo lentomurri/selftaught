@@ -80,3 +80,44 @@ function whatIsInAName(collection, source) {
 }
 
 whatIsInAName([{ first: "Romeo", last: "Montague" }, { first: "Mercutio", last: null }, { first: "Tybalt", last: "Capulet" }], { last: "Capulet" });
+
+
+// Convert a string to spinal case. Spinal case is all-lowercase-words-joined-by-dashes.
+
+function spinalCase(str) {
+    // "It's such a fine line between stupid, and clever."
+    // --David St. Hubbins
+    let delimiter = /\s|(?=[A-Z])|_/;
+    str = str.split(delimiter);
+    str = str.join("-").toLowerCase();
+    return str;
+  }
+  
+  spinalCase('thisIsSpinalTap');
+
+//   Translate the provided string to pig latin.
+// Pig Latin takes the first consonant (or consonant cluster) of an English word, moves it to the end of the word and suffixes an "ay".
+// If a word begins with a vowel you just add "way" to the end.
+// If a word does not contain a vowel, just add "ay" to the end.
+// Input strings are guaranteed to be English words in all lowercase.
+
+function translatePigLatin(str) {
+    let starting = str[0];
+    let vowel = "a e i o u".split(" ")
+    if (vowel.indexOf(starting) >=0) {
+      return str.concat("way")
+    }
+      else {
+      let checkVowel = str.split("").filter(x => vowel.indexOf(x) >= 0);
+    if (checkVowel.length === 0) {
+      return str.concat("ay")
+    }
+    else {
+      let delimiter = /^[^aeiou]+/;
+      let word = str.match(delimiter);
+      return str.replace(word, "").concat(word + "ay")
+    }
+  }
+  }
+  
+  translatePigLatin("glove");

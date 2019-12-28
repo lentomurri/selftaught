@@ -110,14 +110,129 @@ function translatePigLatin(str) {
       else {
       let checkVowel = str.split("").filter(x => vowel.indexOf(x) >= 0);
     if (checkVowel.length === 0) {
-      return str.concat("ay")
+      return str.concat("ay");
     }
     else {
       let delimiter = /^[^aeiou]+/;
       let word = str.match(delimiter);
-      return str.replace(word, "").concat(word + "ay")
+      return str.replace(word, "").concat(word + "ay");
     }
   }
   }
   
   translatePigLatin("glove");
+
+  // Perform a search and replace on the sentence using the arguments provided and return the new sentence.
+
+  function myReplace(str, before, after) {
+    //find first character to check if upper or lower    
+    let starting = before[0]
+    //if starting is uppercase, modifies the first character in the "after" to be uppercase as well
+    if (starting == starting.toUpperCase()) {
+      let capital = after.toUpperCase().split("").splice(0,1);
+      after = after.replace(after[0], capital);
+    }
+    str = str.replace(before, after);
+    return str;
+  }
+  
+  myReplace("A quick brown fox Jumped over the lazy dog", "Jumped", "leaped");
+
+
+
+  function pairElement(str) {
+    //final array to push 
+    let result = [];
+    str = str.split("")
+    let pushing = str.map(function(x){
+      //the array in which we store the temporary couple and gets emptied at the start again
+      let dna = [];
+      //push the first item in 
+      dna.push(x);
+      switch (x) {
+        //every case pushes a different couple
+        //pushes into dna, then into result
+        //starts over again and breaks at the end
+        case "A": 
+        dna.push("T");
+        result.push(dna);
+        break;
+        case "T": 
+        dna.push("A");
+        result.push(dna);
+        break;
+        case "C": 
+        dna.push("G");
+        result.push(dna);
+        break;
+        case "G": 
+        dna.push("C");
+        result.push(dna);
+        break;
+      }
+    })
+    return result;
+  }
+  
+  pairElement("GCG");
+
+  //Find the missing letter in the passed letter range and return it.
+
+  function fearNotLetter(str) {
+    //string to compare missing letter
+    let compare = "abcdefghijklmnopqrstuvwxyz".split("");
+    //string to find starting index
+    let starting = compare.indexOf(str.slice(0,1));
+    //find ending index
+    let ending = compare.indexOf(str.slice(-1));
+    //splices the compare, filters whatever is missing and return only the first element
+    let result = compare.splice(starting, ending + 1).filter(x => str.indexOf(x) === -1)[0]
+    console.log(result)
+    return result;
+  }
+  
+  fearNotLetter("abce");
+
+  // Write a function that takes two or more arrays and returns a new array of unique values in the order of the original provided arrays.
+
+  function uniteUnique(arr) {
+    //store different arguments
+    let result = [];
+    let workingArr = [...arguments]
+    //push first argument in
+    workingArr[0].map(x => result.push(x));
+    for (let number in workingArr) {
+    workingArr[number].filter(x => result.indexOf(x) === -1).map(x => result.push(x))
+    }
+    return result;
+  }
+  
+  uniteUnique([1, 3, 2], [5, 2, 1, 4], [2, 1]);
+
+  // Convert the characters &, <, >, " (double quote), and ' (apostrophe), in a string to their corresponding HTML entities.
+
+  function convertHTML(str) {
+    // &colon;&rpar;
+    //create key/ value character/entity
+    let substitute = {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&apos;"
+    }
+    //create compare string with keys as character to subs
+    let compareCharacter = Object.keys(substitute);
+    //create array from string
+    str = str.split("");
+    //search and substitute characters
+    for (let letter in str) {
+      if (compareCharacter.indexOf(str[letter]) >= 0) {
+        str[letter] = substitute[str[letter]];
+      }
+    }
+    //return joined string 
+    return str.join("")
+      }
+  
+  convertHTML("Dolce & Gabbana");
